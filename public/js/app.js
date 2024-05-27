@@ -5140,7 +5140,8 @@ __webpack_require__.r(__webpack_exports__);
         deadline: '',
         employee_id: null // Change to employeeId
       },
-      employees: []
+      employees: [],
+      buttonText: this.mode === 'create' ? 'Create' : 'Update'
     };
   },
   mounted: function mounted() {
@@ -5174,23 +5175,27 @@ __webpack_require__.r(__webpack_exports__);
         // Logic to create a new task
         // For example, using axios or another HTTP client
         // Simulated creation
+        this.buttonText = "Processing...";
         axios.post('/api/tasks', this.formData, {
           headers: {
             'X-Api-Key': 'uihbbPpmF2Y25TTZXaA45mGIytTVHG'
           }
         }).then(function (response) {
           _this2.successToast('Task created successfully');
+          _this2.buttonText = "Create";
           console.log('Task created successfully:', response.data);
           // Navigate back to the task list after successful creation
           _this2.$router.push('/task-list');
         })["catch"](function (error) {
           _this2.errorToast();
+          _this2.buttonText = "Create";
           console.error('Error creating task:', error);
         });
       } else if (this.mode === 'edit') {
         // Logic to update the task with taskId
         // For example, using axios or another HTTP client
         // Simulated update
+        this.buttonText = "Processing...";
         var taskId = this.taskId;
         axios.put("/api/tasks/".concat(taskId), this.formData, {
           headers: {
@@ -5198,11 +5203,13 @@ __webpack_require__.r(__webpack_exports__);
           }
         }).then(function (response) {
           _this2.successToast('Task updated successfully');
+          _this2.buttonText = "Create";
           console.log('Task updated successfully:', response.data);
           // Navigate back to the task list after successful update
           _this2.$router.push('/task-list');
         })["catch"](function (error) {
           _this2.errorToast();
+          _this2.buttonText = "Create";
           console.error('Error updating task:', error);
         });
       }
@@ -28280,11 +28287,7 @@ var render = function () {
                       staticClass: "btn btn-primary",
                       attrs: { type: "submit" },
                     },
-                    [
-                      _vm._v(
-                        _vm._s(_vm.mode === "create" ? "Create" : "Update")
-                      ),
-                    ]
+                    [_vm._v(_vm._s(_vm.buttonText))]
                   ),
                 ]
               ),

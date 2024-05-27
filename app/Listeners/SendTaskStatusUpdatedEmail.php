@@ -19,6 +19,7 @@ class SendTaskStatusUpdatedEmail implements ShouldQueue
      */
     public function handle(TaskStatusUpdated $event)
     {
+        $appMail = env('APP_MAIL');
         $task = $event->task;
         $oldStatus = $event->oldStatus;
         $newStatus = $event->newStatus;
@@ -31,7 +32,7 @@ class SendTaskStatusUpdatedEmail implements ShouldQueue
 
         // Logic to send email
         $recipientEmail = $task->employee->email; // Change this to the recipient's email address
-        $ccEmail = 'besureitsbunny@gmail.com';
+        $ccEmail = $appMail;
         $subject = 'Task Status Updated';
         $message = !is_null($oldStatus)?"Task status has been updated from {$status[$oldStatus]} to {$status[$newStatus]}!":"Task has been assigned to you!";
 

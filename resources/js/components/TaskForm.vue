@@ -27,7 +27,7 @@
                 <label for="deadline" class="form-label">Deadline</label>
                 <input type="date" id="deadline" class="form-control" v-model="formData.deadline" required>
               </div>
-              <button type="submit" class="btn btn-primary">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+              <button type="submit" class="btn btn-primary">{{ buttonText }}</button>
             </form>
           </div>
         </div>
@@ -60,7 +60,8 @@ export default {
         deadline: '',
         employee_id: null, // Change to employeeId
       },
-      employees: []
+      employees: [],
+      buttonText: (this.mode === 'create') ? 'Create' : 'Update'
     };
   },
   mounted() {
@@ -90,31 +91,37 @@ export default {
         // Logic to create a new task
         // For example, using axios or another HTTP client
         // Simulated creation
+        this.buttonText = "Processing...";
         axios.post('/api/tasks', this.formData, {headers: {'X-Api-Key': 'uihbbPpmF2Y25TTZXaA45mGIytTVHG'}})
           .then(response => {
             this.successToast('Task created successfully');
+            this.buttonText = "Create";
             console.log('Task created successfully:', response.data);
             // Navigate back to the task list after successful creation
             this.$router.push('/task-list');
           })
           .catch(error => {
             this.errorToast();
+            this.buttonText = "Create";
             console.error('Error creating task:', error);
           });
       } else if (this.mode === 'edit') {
         // Logic to update the task with taskId
         // For example, using axios or another HTTP client
         // Simulated update
+        this.buttonText = "Processing...";
         const taskId = this.taskId;
         axios.put(`/api/tasks/${taskId}`,this.formData,{headers: {'X-Api-Key': 'uihbbPpmF2Y25TTZXaA45mGIytTVHG'}})
           .then(response => {
             this.successToast('Task updated successfully');
+            this.buttonText = "Create";
             console.log('Task updated successfully:', response.data);
             // Navigate back to the task list after successful update
             this.$router.push('/task-list');
           })
           .catch(error => {
             this.errorToast();
+            this.buttonText = "Create";
             console.error('Error updating task:', error);
           });
       }
